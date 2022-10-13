@@ -6,9 +6,47 @@ const { json } = require('express');
 
 
 
+/*
+    PLEASE USE POSTMAN TO GET ALL RESULTS .WITH CERTAIN METHODS .
+
+    1. ADDING A OBJECT OF NEW COIN 
+       
+        POST method 
+        URL:  http://localhost:8000/crypto/AddCoin
+        Body (json): {
+                        "cryptoName":"BNB",
+                        "about":"CryptoPrice"
+                     } 
+    
+    2. UPDATE AND STORE LATEST PRICE TO DATABASE AND DETAILS (OHCL) ALL COINS
+        PUT method
+        URL : http://localhost:8000/crypto/DetailUpdate
 
 
-//POST ADD COIN: 
+
+    
+    3. UPDATE AND CONSOLE OUTPUT OF  LIVE PRICE AND OHCL OF ALL COINS
+        PUT method
+        URL : http://localhost:8000/crypto/live
+
+
+
+    4. GET RES DATA OF ALL COINS
+        GET method
+        URL : http://localhost:8000/crypto/price
+    
+
+
+        5. UPDATE SINGLE COIN'S CURRENT PRICE WITH QUERY :
+        PUT method
+        URL : http://localhost:8000/crypto/singlePrice?coin=BTC
+
+
+*/
+
+
+
+// 1. POST ADD COIN: 
 router.post('/AddCoin',async (req, res) => {
 
     //adding new data to coinDB schema
@@ -27,7 +65,7 @@ router.post('/AddCoin',async (req, res) => {
     }
 })
 
-//Update and Store to DataBase ALL COIN Current price and OHLC: 
+// 2. Update and Store to DataBase ALL COIN Current price and OHLC: 
 router.put('/DetailUpdate',async (req, res) => {
     const getPrice  = async(crypto) =>{
         try{
@@ -82,7 +120,7 @@ router.put('/DetailUpdate',async (req, res) => {
 })
 
 
-//GET PRICE OF ALL COINS
+// 3. GET PRICE OF ALL COINS
 router.get('/price',async (req,res) =>{
    try{
        const CryptoData = await coinDB.find()
@@ -100,7 +138,7 @@ router.get('/price',async (req,res) =>{
 
 })
 
-//UPDATE ,STORE AND GET ALL PRICE DATA REALTIME .  : 
+// 4. UPDATE ,STORE AND GET ALL PRICE DATA REALTIME .  : 
 //REAL TIME storing of Data to database . For see Result CONSOLE OUTPUT RESULT .
 router.put('/live',async (req, res) => {
     const getPrice  = async(crypto) =>{
@@ -173,15 +211,9 @@ router.put('/live',async (req, res) => {
 
 
 
-
-
-
-
-
-
 //####  OPTIONAL   #####
 
-//Update Single coin Current price with query " [ ?coin=BTC ] ": 
+//5.Update Single coin Current price with query " [ ?coin=BTC ] ": 
 router.put('/singlePrice',async (req, res) => {
     var coin = req.query.coin;
     let selectedCoin = await coinDB.findOne({cryptoName: coin});
